@@ -1,0 +1,418 @@
+﻿/* ===========================================================
+   Ù…ØªØ¹Ø© Ø§Ù„ØªØ¹Ù„Ù… â€” styles
+
+   Chaque Ã©cran est une image de fond ; les zones cliquables sont
+   posÃ©es par-dessus en pourcentages, donc tout reste alignÃ© quelle
+   que soit la taille de l'Ã©cran.
+
+   --s : largeur de la scÃ¨ne en pixels, mise Ã  jour par app.js.
+         Toutes les tailles de texte des surcouches en dÃ©pendent,
+         pour qu'elles grandissent avec la scÃ¨ne.
+   =========================================================== */
+
+* { box-sizing: border-box; }
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: #6ec8f5;
+  font-family: 'Baloo Bhaijaan 2', 'Tajawal', system-ui, sans-serif;
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+}
+
+body {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* --- ScÃ¨ne : dimensions natives ; lâ€™Ã©chelle est posÃ©e par app.js (contain) --- */
+.stage {
+  --s: 1280px;
+  --arw: 1920;
+  --arh: 1080;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: calc(var(--arw) * 1px);
+  height: calc(var(--arh) * 1px);
+  transform: translate(-50%, -50%) scale(1);
+  transform-origin: center center;
+  overflow: hidden;
+  border-radius: 0;
+  box-shadow: none;
+  background: #6ec8f5;
+}
+
+.screen {
+  position: absolute;
+  inset: 0;
+  opacity: 1;
+  visibility: visible;
+}
+
+
+.bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  image-rendering: auto;
+  display: block;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* ===========================================================
+   Zones cliquables posÃ©es sur les visuels
+   Invisibles au repos, elles s'Ã©clairent au survol et au doigt :
+   sans Ã§a, rien n'indique qu'il y a quelque chose Ã  toucher.
+   =========================================================== */
+.hs {
+  position: absolute;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 14%/20%;
+  transition: transform .16s cubic-bezier(.34, 1.56, .64, 1),
+              background-color .16s ease, box-shadow .16s ease;
+  transform-origin: center;
+}
+.hs:hover {
+  background: rgba(255, 255, 255, .18);
+  box-shadow: 0 0 0 .28vmin rgba(255, 255, 255, .55), 0 .5vmin 1.4vmin rgba(0, 0, 0, .22);
+  transform: scale(1.05);
+}
+.hs:active {
+  background: rgba(255, 255, 255, .34);
+  transform: scale(.95);
+}
+.hs:focus-visible {
+  outline: .4vmin dashed rgba(255, 255, 255, .95);
+  outline-offset: .3vmin;
+}
+.hs.pill  { border-radius: 999px; }
+.hs.round { border-radius: 50%; }
+.hs.soft:hover  { transform: scale(1.02); background: rgba(255, 255, 255, .12); box-shadow: none; }
+
+/* Boutons nav avec image HQ (Ã©cran home) */
+.hs.nav-ico {
+  border-radius: 18%;
+  background: transparent;
+  line-height: 0;
+  overflow: visible;
+}
+.hs.nav-ico img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  filter: drop-shadow(0 .35vmin .9vmin rgba(0, 0, 0, .28));
+}
+.hs.nav-ico:hover {
+  background: transparent;
+  box-shadow: none;
+  transform: scale(1.06);
+}
+.hs.nav-ico:active {
+  background: transparent;
+  transform: scale(.96);
+}
+.hs.soft:active { transform: scale(.99); background: rgba(255, 255, 255, .22); }
+
+/* Halo qui invite Ã  toucher les deux boutons de l'accueil */
+.hs.hint::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  animation: invite 2.8s ease-out infinite;
+}
+.hs.hint:hover::after { animation: none; }
+@keyframes invite {
+  0%   { box-shadow: 0 0 0 0 rgba(255, 255, 255, .60); }
+  70%  { box-shadow: 0 0 0 2.2vmin rgba(255, 255, 255, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+}
+
+/* Pastille qui bat pendant la lecture du son */
+.hs.is-playing::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  animation: ripple 1s ease-out infinite;
+}
+@keyframes ripple {
+  0%   { box-shadow: 0 0 0 0 rgba(255, 255, 255, .85); }
+  100% { box-shadow: 0 0 0 3vmin rgba(255, 255, 255, 0); }
+}
+
+/* --- LeÃ§on pas encore disponible --- */
+.tile.locked {
+  background: rgba(238, 238, 246, .58);
+  box-shadow: inset 0 0 0 1px rgba(90, 60, 140, .18);
+  cursor: default;
+}
+.tile.locked:hover  { background: rgba(238, 238, 246, .42); transform: none; box-shadow: inset 0 0 0 1px rgba(90, 60, 140, .28); }
+.tile.locked:active { background: rgba(238, 238, 246, .58); transform: scale(.99); }
+.tile.locked::after {
+  content: '';
+  position: absolute;
+  inset-inline-end: 3.5%;
+  top: 50%;
+  width: calc(var(--s) * .020);
+  height: calc(var(--s) * .020);
+  margin-top: calc(var(--s) * -.010);
+  background: currentColor;
+  color: #6b5b95;
+  opacity: .55;
+  /* petit cadenas */
+  -webkit-mask: no-repeat center/contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 10V7a5 5 0 0 1 10 0v3h1a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2zm2 0h6V7a3 3 0 0 0-6 0z'/%3E%3C/svg%3E");
+  mask: no-repeat center/contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 10V7a5 5 0 0 1 10 0v3h1a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2zm2 0h6V7a3 3 0 0 0-6 0z'/%3E%3C/svg%3E");
+}
+
+/* --- Tuiles des grilles --- */
+.tile {
+  position: absolute;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 18%;
+  transition: transform .18s cubic-bezier(.34, 1.56, .64, 1),
+              background-color .18s ease, box-shadow .18s ease;
+}
+.tile:hover {
+  background: rgba(255, 255, 255, .22);
+  transform: scale(1.12) rotate(-2deg);
+  box-shadow: 0 .8vmin 1.8vmin rgba(0, 0, 0, .28);
+}
+.tile:active {
+  background: rgba(255, 255, 255, .38);
+  transform: scale(.95);
+}
+.tile.is-speaking {
+  animation: pop .5s ease infinite alternate;
+  box-shadow: 0 0 0 .6vmin rgba(255, 255, 255, .8), 0 0 2.6vmin .8vmin rgba(255, 214, 0, .85);
+}
+.tile:focus-visible { outline: .4vmin dashed #fff; outline-offset: .2vmin; }
+
+@keyframes pop {
+  from { transform: scale(1); }
+  to   { transform: scale(1.12); }
+}
+
+/* --- Lettre dessinÃ©e par-dessus une plaque vierge --- */
+.glyph-wrap {
+  position: absolute;
+  left: var(--gx, 29.76%);
+  top: var(--gy, 20.88%);
+  width: var(--gw, 40.28%);
+  height: var(--gh, 60.44%);
+  pointer-events: none;
+  display: grid;
+  place-items: center;
+  animation: glyphIn .45s cubic-bezier(.34, 1.56, .64, 1);
+}
+.glyph-wrap[hidden] { display: none; }   /* [hidden] doit primer sur display:grid */
+.glyph-wrap svg { width: 100%; height: 100%; overflow: visible; }
+#glyph-text {
+  font-family: 'Baloo Bhaijaan 2', 'Tajawal', sans-serif;
+  font-weight: 800;
+  filter: drop-shadow(0 .8px 0 rgba(0, 0, 0, .12)) drop-shadow(0 3px 4px rgba(0, 0, 0, .18));
+}
+@keyframes glyphIn {
+  from { transform: scale(.4); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+/* ===========================================================
+   Boutons flottants : lettre prÃ©cÃ©dente / suivante, retour, lecture
+   =========================================================== */
+.nav-btn {
+  position: absolute;
+  width: 8.4%;
+  max-width: calc(var(--s) * .062);
+  aspect-ratio: 1;
+  min-width: 40px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .72);
+  color: #3d3172;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  cursor: pointer;
+  opacity: .82;
+  box-shadow: 0 .4vmin 1.2vmin rgba(0, 0, 0, .28);
+  transition: opacity .2s ease, transform .2s ease, background .2s ease;
+}
+.nav-btn:hover  { opacity: 1; background: #fff; }
+.nav-btn:active { transform: scale(.9); }
+.nav-btn:focus-visible { opacity: 1; outline: .4vmin dashed #fff; outline-offset: .3vmin; }
+.nav-btn svg { width: 52%; height: 52%; display: block; }
+
+.nav-btn.prev { left: 1.4%;  top: 50%; margin-top: -3.1%; }
+.nav-btn.next { right: 1.4%; top: 50%; margin-top: -3.1%; }
+.nav-btn.back { left: 1.6%;  top: 3.5%; }
+
+.nav-btn.play {
+  left: 50%;
+  bottom: 2.2%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, .88);
+  color: #c2185b;
+}
+.nav-btn.play:active { transform: translateX(-50%) scale(.9); }
+.nav-btn.play .i-stop { display: none; }
+.nav-btn.play.is-playing .i-play { display: none; }
+.nav-btn.play.is-playing .i-stop { display: block; }
+.nav-btn.play.is-playing { background: #fff; box-shadow: 0 0 0 .5vmin rgba(255, 214, 0, .9); }
+
+/* --- Compteur Â« lettre 3 / 28 Â» --- */
+.counter {
+  position: absolute;
+  left: 1.8%;
+  bottom: 2.4%;
+  padding: .25em .9em;
+  border-radius: 999px;
+  background: rgba(20, 10, 45, .55);
+  color: #fff;
+  font-family: 'Tajawal', sans-serif;
+  font-weight: 700;
+  font-size: calc(var(--s) * .022);
+  letter-spacing: .04em;
+  pointer-events: none;
+  opacity: .8;
+  transition: opacity .25s ease;
+}
+
+/* --- Petit message d'information --- */
+.toast {
+  position: absolute;
+  left: 50%;
+  bottom: 6%;
+  transform: translateX(-50%);
+  z-index: 50;
+  max-width: 80%;
+  padding: .6em 1.3em;
+  border-radius: 999px;
+  background: rgba(20, 10, 45, .9);
+  color: #fff;
+  font-family: 'Tajawal', sans-serif;
+  font-size: calc(var(--s) * .026);
+  text-align: center;
+  box-shadow: 0 .8vmin 2.4vmin rgba(0, 0, 0, .35);
+  animation: fade .2s ease;
+}
+.toast[hidden] { display: none; }
+
+@keyframes fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* --- Respect des prÃ©fÃ©rences d'animation rÃ©duite --- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+/* --- Lignes du sommaire : des rectangles allongÃ©s, pas des carrÃ©s --- */
+.tile.lesson { border-radius: 3.4% / 22%; }
+.tile.lesson:hover { transform: scale(1.03); }
+
+/* ===========================================================
+   Accueil â€” grille 2Ã—2 des catÃ©gories (zones cliquables sur le visuel)
+   =========================================================== */
+.category-grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.category-card {
+  position: absolute;
+  pointer-events: auto;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 12% / 16%;
+  transform-origin: center;
+  transition: transform .18s cubic-bezier(.34, 1.56, .64, 1),
+              box-shadow .18s ease, background-color .18s ease;
+}
+
+.category-card:hover {
+  background: rgba(255, 255, 255, .14);
+  box-shadow: 0 0 0 .35vmin rgba(255, 255, 255, .55),
+              0 .8vmin 2vmin rgba(0, 0, 0, .22);
+  transform: scale(1.04);
+}
+
+.category-card:active {
+  background: rgba(255, 255, 255, .28);
+  transform: scale(.97);
+}
+
+.category-card:focus-visible {
+  outline: .45vmin dashed rgba(255, 255, 255, .95);
+  outline-offset: .35vmin;
+}
+
+.category-card.is-ready.hint::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  animation: invite 2.8s ease-out infinite;
+}
+.category-card.is-ready.hint:hover::after { animation: none; }
+
+/* LibellÃ© accessible (le texte est dÃ©jÃ  dessinÃ© sur le fond) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space:nowrap;
+  border: 0;
+}
+
+/* Petits Ã©crans : feedback tactile un peu plus discret */
+@media (max-width: 640px) and (orientation: landscape) {
+  .category-card:hover { transform: scale(1.02); }
+}
+
