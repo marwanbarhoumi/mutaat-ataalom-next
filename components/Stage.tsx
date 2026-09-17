@@ -56,9 +56,10 @@ export function Stage({ screen, children }: StageProps) {
       scale = Math.max(scaleX, scaleY);
       transform = `translate(-50%, -50%) rotate(90deg) scale(${scale})`;
     } else {
+      // Desktop / landscape : contain — scène entière visible, centrée, sans crop ni étirement
       const scaleX = vw / designW;
       const scaleY = vh / designH;
-      scale = Math.max(scaleX, scaleY);
+      scale = Math.min(scaleX, scaleY);
       transform = `translate(-50%, -50%) scale(${scale})`;
     }
 

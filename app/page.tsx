@@ -16,6 +16,62 @@ export default function StartPage() {
           draggable={false}
         />
 
+        {/* Navigation haut-droite — mêmes coords/comportements que l'original (start.jpg hotspots) */}
+        <Hotspot
+          left={65.52}
+          top={0}
+          width={8.85}
+          height={15.74}
+          soon
+          className="nav-ico"
+          ariaLabel="الاشتراك"
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={asset("/assets/ui/start/nav-subscribe.png")}
+            width={169}
+            height={169}
+            alt=""
+            draggable={false}
+          />
+        </Hotspot>
+        <Hotspot
+          left={77.08}
+          top={0}
+          width={8.85}
+          height={15.74}
+          href="/home"
+          className="nav-ico"
+          ariaLabel="المحتوى"
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={asset("/assets/ui/start/nav-content.png")}
+            width={338}
+            height={338}
+            alt=""
+            draggable={false}
+          />
+        </Hotspot>
+        <Hotspot
+          left={88.65}
+          top={0}
+          width={8.85}
+          height={15.74}
+          href="/"
+          className="nav-ico"
+          ariaLabel="الرئيسية"
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={asset("/assets/ui/start/nav-home.png")}
+            width={169}
+            height={169}
+            alt=""
+            draggable={false}
+          />
+        </Hotspot>
+
         {/* Boutons de langue — assets séparés */}
         <Hotspot
           left={58.5}
