@@ -10,7 +10,7 @@ export default function LessonsPage() {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           className="bg"
-          src={asset("/assets/ui/lessons.jpg")}
+          src={asset("/assets/ui/lessons.png")}
           alt="الحروف والمقاطع — قائمة الدروس"
           draggable={false}
         />

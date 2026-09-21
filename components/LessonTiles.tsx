@@ -13,7 +13,7 @@ export function LessonTiles() {
 
   return (
     <div className="tiles" id="tiles-lessons">
-      {LESSONS.map((L, i) => (
+      {LESSONS.filter((L) => L.n <= 14).map((L, i) => (
         <button
           key={L.n}
           type="button"
